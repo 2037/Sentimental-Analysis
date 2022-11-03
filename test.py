@@ -35,15 +35,17 @@ for model in model_names:
   with open(f'models/{model}.pkl','rb') as f:
     models.append(pickle.load(f))
 
-import tensorflow as tf
-model_dir = 'models/emoji_lstm_glove_pretrain_freeze'
-model_reload = tf.keras.models.load_model(model_dir)
+# import tensorflow as tf
+# model_dir = 'models/emoji_lstm_glove_pretrain_freeze'
+# model_reload = tf.keras.models.load_model(model_dir)
 
 # ==============test set sample prediction==============
+# def lstm_pred(test_idx):
+#   probs = model_reload.predict(np.reshape(test_x_ids[test_idx], [1, -1]),verbose=0).ravel()
+#   pred = np.argmax(probs)
+#   return pred
 def lstm_pred(test_idx):
-  probs = model_reload.predict(np.reshape(test_x_ids[test_idx], [1, -1]),verbose=0).ravel()
-  pred = np.argmax(probs)
-  return pred
+  return 0
 
 test_idx = choice(test_x_ids.shape[0])
 print("Text: ",test_x[test_idx])
@@ -84,17 +86,20 @@ word_to_index, word_to_vec = utils.load_glove_vecs()
 
 
 #============== your words ==============
+# def lstm_pred_your_words(your_words):
+#   MAX_SENTENCE_LEN = 10
+#   your_words_id = sentences_to_indices(np.array([your_words]), word_to_index, max_len=MAX_SENTENCE_LEN)
+#   probs = model_reload.predict(np.reshape(your_words_id, [1, -1]),verbose = 0).ravel()
+#   pred = np.argmax(probs)
+#   return pred
+
 def lstm_pred_your_words(your_words):
-  MAX_SENTENCE_LEN = 10
-  your_words_id = sentences_to_indices(np.array([your_words]), word_to_index, max_len=MAX_SENTENCE_LEN)
-  probs = model_reload.predict(np.reshape(your_words_id, [1, -1]),verbose = 0).ravel()
-  pred = np.argmax(probs)
-  return pred
+  return 0
 
 
 print(f"{'models':+^30}")
 [print(str(i)) for i in models]
-print(str(model_reload))
+# print(str(model_reload))
 
 print()
 print(f"{'test_cases':+^30}")

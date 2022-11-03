@@ -60,97 +60,40 @@
       </div>
     </div>
 
-    <b>Text:</b>"{{pred_text}}"<br>
-    <b>True emoji</b>:{{pred_true_value}}
-    <table class="tg">
-      <thead>
-        <tr>
-          <th>Algorithm</th>
-          <th>Prediction</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>mnb_model</td>
-          <td>{{mnb_pred}}</td>
-        </tr>
-        <tr>
-          <td>lr_model</td>
-          <td>{{lr_pred}}</td>
-        </tr>
-        <tr>
-          <td>rf_model</td>
-          <td>{{rf_pred}}</td>
-        </tr>
-        <tr>
-          <td>gbc_model</td>
-          <td>{{gbc_pred}}</td>
-        </tr>
-        <tr>
-          <td>xgb_model</td>
-          <td>{{xgb_pred}}</td>
-        </tr>
-        <tr>
-          <td>lstm</td>
-          <td>{{lstm_pred}}</td>
-        </tr>
-      </tbody>
-    </table>
+    {% for table in tables %}
+    {{titles[loop.index]}}
+    {{ table|safe }}
+    {% endfor %}
 
     <form action="/" method="post">
-      <input type="submit" value="Randomize" name="action"/>
+      <input type="submit" value="Randomize" name="action" />
     </form>
 
 
-    <!-- <h2>Prediction on your word</h2> -->
     <div class="row">
       <div class="col-lg-12">
         <h1 class="page-header">Prediction on your words
         </h1>
       </div>
     </div>
-    
+
+    <!-- <h2>Prediction on your word</h2> -->
     <form action="/" method="post">
-      <p><input type="utf-8" name="action2" value="Good to see you"></p>
+      <p><input type="utf-8" name="action2" value="nice ball"></p>
     </form>
-
-    <b>Text:</b>"{{pred_text}}"<br>
-    <b>True emoji</b>:{{pred_true_value}}
-    <table class="tg">
-      <thead>
-        <tr>
-          <th>Algorithm</th>
-          <th>Prediction</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>mnb_model</td>
-          <td>{{mnb_pred}}</td>
-        </tr>
-        <tr>
-          <td>lr_model</td>
-          <td>{{lr_pred}}</td>
-        </tr>
-        <tr>
-          <td>rf_model</td>
-          <td>{{rf_pred}}</td>
-        </tr>
-        <tr>
-          <td>gbc_model</td>
-          <td>{{gbc_pred}}</td>
-        </tr>
-        <tr>
-          <td>xgb_model</td>
-          <td>{{xgb_pred}}</td>
-        </tr>
-        <tr>
-          <td>lstm</td>
-          <td>{{lstm_pred}}</td>
-        </tr>
-      </tbody>
-    </table>
-
+    (Enter Text then hit enter)
+    {% for table in tables_text %}
+    {{titles_text[loop.index]}}
+    {{ table|safe }}
+    {% endfor %}
+    <br>LSTM is disabled for its large size of model. Only five emojis are available for prediction. 
+    <br>You can try some of following:
+    <br>bad day
+    <br>good morning
+    <br>i like you
+    <br>nice ball
+    <br>i need food
+    
     <div class="row">
       <div class="col-lg-12">
         <h1 class="page-header">Accuracy performed in test set

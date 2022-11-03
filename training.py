@@ -5,10 +5,10 @@ import numpy as np
 import collections
 import sklearn as sk
 from numpy.random import choice
-import tensorflow as tf
 import pickle
 
-print(tf.__version__)
+# import tensorflow as tf
+# print(tf.__version__)
 # print("Number of available GPUs: ", tf.config.list_physical_devices("GPU"))
 
 ## Still Emoji
@@ -255,71 +255,71 @@ for name,model in model_names:
 
 
 
-# tensorflow
+# tensorflow -----disable
 
-from tensorflow.keras.layers import Input, Dropout, LSTM, Embedding, Dense
-from tensorflow.keras.models import Model
+# from tensorflow.keras.layers import Input, Dropout, LSTM, Embedding, Dense
+# from tensorflow.keras.models import Model
 
-# Create embedding layer
-# Transfer learning: Learn from a pretrained embedding model
+# # Create embedding layer
+# # Transfer learning: Learn from a pretrained embedding model
+# # embedding = Embedding(
+# #     input_dim=emb_matrix.shape[0], # 400001
+# #     output_dim=emb_matrix.shape[1], # 50
+# #     weights=[emb_matrix],
+# #     trainable=False
+# # )
+
+# # 1. set trainable = False. freeze the pretrained embedding
+# # 2. set trainable = True. co-train the pretrained embedding with other layers (preferred)
+# # 3. Train embedding from scratch
 # embedding = Embedding(
 #     input_dim=emb_matrix.shape[0], # 400001
 #     output_dim=emb_matrix.shape[1], # 50
-#     weights=[emb_matrix],
-#     trainable=False
 # )
+# print(train_x_ids.shape)
+# print(train_x_ids.shape[1:])
+# print(train_x_ids.dtype)
+# # Build the model
+# # train_x_ids: [# of examples, seq_length]
+# # Define the batch_size in training loop
+# input_ids = Input(shape=train_x_ids.shape[1:], dtype=train_x_ids.dtype)
+# input_embedding = embedding(input_ids)
 
-# 1. set trainable = False. freeze the pretrained embedding
-# 2. set trainable = True. co-train the pretrained embedding with other layers (preferred)
-# 3. Train embedding from scratch
-embedding = Embedding(
-    input_dim=emb_matrix.shape[0], # 400001
-    output_dim=emb_matrix.shape[1], # 50
-)
-print(train_x_ids.shape)
-print(train_x_ids.shape[1:])
-print(train_x_ids.dtype)
-# Build the model
-# train_x_ids: [# of examples, seq_length]
-# Define the batch_size in training loop
-input_ids = Input(shape=train_x_ids.shape[1:], dtype=train_x_ids.dtype)
-input_embedding = embedding(input_ids)
+# # First LSTM layer
+# # out = LSTM(units=128, return_sequences=True, recurrent_dropout=0.1)(input_embedding)
+# # # Second LSTM layer
+# # out = LSTM(units=128, return_sequences=False)(out)
+# # out = Dense(units=32, activation='sigmoid')(out)
+# # out = Dropout(rate=0.1)(out)
+# # out = Dense(NUM_LABELS, activation='softmax')(out)
 
-# First LSTM layer
-# out = LSTM(units=128, return_sequences=True, recurrent_dropout=0.1)(input_embedding)
-# # Second LSTM layer
-# out = LSTM(units=128, return_sequences=False)(out)
-# out = Dense(units=32, activation='sigmoid')(out)
-# out = Dropout(rate=0.1)(out)
-# out = Dense(NUM_LABELS, activation='softmax')(out)
-
-# Only one LSTM layer, relu
-out = LSTM(units=128, return_sequences=False, recurrent_dropout=0.1)(input_embedding)
-out = Dense(units=32, activation='relu')(out)
-out = Dropout(rate=0.1)(out)
-out = Dense(NUM_LABELS, activation='softmax')(out)
-
-## Only one LSTM layer, sigmoid
+# # Only one LSTM layer, relu
 # out = LSTM(units=128, return_sequences=False, recurrent_dropout=0.1)(input_embedding)
-# out = Dense(units=32, activation='sigmoid')(out)
+# out = Dense(units=32, activation='relu')(out)
 # out = Dropout(rate=0.1)(out)
 # out = Dense(NUM_LABELS, activation='softmax')(out)
 
+# ## Only one LSTM layer, sigmoid
+# # out = LSTM(units=128, return_sequences=False, recurrent_dropout=0.1)(input_embedding)
+# # out = Dense(units=32, activation='sigmoid')(out)
+# # out = Dropout(rate=0.1)(out)
+# # out = Dense(NUM_LABELS, activation='softmax')(out)
 
-model = Model(inputs=[input_ids], outputs=out, name='emoji_lstm')
-model.summary()
-model.compile(loss=tf.keras.losses.categorical_crossentropy, optimizer='adam', metrics=['acc'])
-# opt = tf.keras.optimizers.Adam(learning_rate=0.1)
-# model.compile(loss=tf.keras.losses.categorical_crossentropy, optimizer=opt, metrics=['acc'])
-model
-from tensorflow.python.keras import backend as K
-print(K._get_available_gpus())
-history = model.fit(
-    x=train_x_ids,
-    y=train_y_onehot,
-    validation_data=(test_x_ids, test_y_onehot),
-    batch_size=32, # 2^n
-    epochs=100
-)
-model_dir = 'models/emoji_lstm_glove_pretrain_freeze'
-model.save(model_dir)
+
+# model = Model(inputs=[input_ids], outputs=out, name='emoji_lstm')
+# model.summary()
+# model.compile(loss=tf.keras.losses.categorical_crossentropy, optimizer='adam', metrics=['acc'])
+# # opt = tf.keras.optimizers.Adam(learning_rate=0.1)
+# # model.compile(loss=tf.keras.losses.categorical_crossentropy, optimizer=opt, metrics=['acc'])
+# model
+# from tensorflow.python.keras import backend as K
+# print(K._get_available_gpus())
+# history = model.fit(
+#     x=train_x_ids,
+#     y=train_y_onehot,
+#     validation_data=(test_x_ids, test_y_onehot),
+#     batch_size=32, # 2^n
+#     epochs=100
+# )
+# model_dir = 'models/emoji_lstm_glove_pretrain_freeze'
+# model.save(model_dir)
