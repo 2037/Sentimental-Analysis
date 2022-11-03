@@ -1,0 +1,1 @@
+web: gunicorn --bind :10000 --workers 1 --threads 1 passenger_wsgi:application

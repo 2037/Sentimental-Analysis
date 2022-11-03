@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="author" content="Jack Wang">
+  <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+  <title>Sentiment Analysis: text to emoji</title>
+
+  <style>
+    .column {
+      width: 500px;
+      float: left
+    }
+
+    body {
+      padding-top: 70px;
+    }
+
+    footer {
+      margin: 50px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- <div class="column"> -->
+    <!-- Navigation -->
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Prediction of Emoji</a>
+        </div>
+      </div>
+      <!-- /.container -->
+    </nav>
+
+    <!-- <h1>Prediction of Emoji</h1> -->
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">Prediction of Emoji
+        </h1>
+      </div>
+    </div>
+    This project is to test machine learning algorithms on prediction of emoji based on input text... We use
+    Glove(glove.6B.50d.txt) from Stanford for word embedding.
+
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">Prediction on samples from test set
+        </h1>
+      </div>
+    </div>
+    <!-- <h2>Prediction on samples from test set</h2> -->
+    <form action="http://127.0.0.1:8000/" method="post">
+      <p><button>Randomize</button></p>
+    </form>
+
+    <table class="tg">
+      <thead>
+        <tr>
+          <th>Text</th>
+          <th>True Value of emoji</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>"{{pred_text}}"</td>
+          <td>{{pred_true_value}}</td>
+        </tr>
+      </tbody>
+
+      <table class="tg">
+        <thead>
+          <tr>
+            <th>Algorithm</th>
+            <th>Prediction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>mnb_model</td>
+            <td>{{mnb_pred}}</td>
+          </tr>
+          <tr>
+            <td>lr_model</td>
+            <td>{{lr_pred}}</td>
+          </tr>
+          <tr>
+            <td>rf_model</td>
+            <td>{{rf_pred}}</td>
+          </tr>
+          <tr>
+            <td>gbc_model</td>
+            <td>{{gbc_pred}}</td>
+          </tr>
+          <tr>
+            <td>xgb_model</td>
+            <td>{{xgb_pred}}</td>
+          </tr>
+          <tr>
+            <td>lstm</td>
+            <td>{{lstm_pred}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 class="page-header">Prediction on your words
+          </h1>
+        </div>
+      </div>
+
+      <!-- <h2>Prediction on your word</h2> -->
+      <form action="http://localhost:5000/predict" method="post">
+        <p><input type="utf-8" name="Input" value="good morning"></p>
+      </form>
+
+      The prediction is
+
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 class="page-header">Accuracy performed in test set
+          </h1>
+        </div>
+      </div>
+      <!-- <h2>Accuracy performed in test set</h2> -->
+      <table class="tg">
+        <thead>
+          <tr>
+            <th class="tg-7zrl">Algorithm</th>
+            <th class="tg-7zrl">Package</th>
+            <th class="tg-7zrl">Accuracy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tg-cly1">Multinomial Naïve Bayes</td>
+            <td class="tg-cly1">sklearn.naive_bayes.MultinomialNB</td>
+            <td class="tg-p9zu">51.79%</td>
+          </tr>
+          <tr>
+            <td class="tg-cly1">Logistic Regression</td>
+            <td class="tg-cly1">sklearn.linear_model.LogisticRegression</td>
+            <td class="tg-p9zu">51.79%</td>
+          </tr>
+          <tr>
+            <td class="tg-7zrl">Random Forest</td>
+            <td class="tg-7zrl">sklearn.ensemble.RandomForestClassifier</td>
+            <td class="tg-p9zu">58.93%</td>
+          </tr>
+          <tr>
+            <td class="tg-7zrl">Gradient Boosting</td>
+            <td class="tg-7zrl">sklearn.ensemble.GradientBoostingClassifier</td>
+            <td class="tg-p9zu">62.50%</td>
+          </tr>
+          <tr>
+            <td class="tg-7zrl">Extreme Gradient Boosting</td>
+            <td class="tg-7zrl">xgboost.XGBClassifier</td>
+            <td class="tg-p9zu">51.79%</td>
+          </tr>
+          <tr>
+            <td class="tg-7zrl">Long Short Term Memory</td>
+            <td class="tg-cly1">tensorflow.keras.layers.LSTM</td>
+            <td class="tg-p9zu">53.57%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 class="page-header">Improvement
+          </h1>
+        </div>
+      </div>
+      <!-- <h2>Improvement</h2> -->
+      The potential improvement is to increase training set. Increase features size since there're only five emoji
+      involved and input sentences might have more than one reasonable output. We can also perform hyperparameter
+      tuning.
+</body>
+
+</div>
+
+<!-- </div> -->
+
+</html>
