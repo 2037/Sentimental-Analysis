@@ -50,8 +50,33 @@
         </h1>
       </div>
     </div>
-    This project is to test machine learning algorithms on prediction of emoji based on input text... We use
-    Glove(glove.6B.50d.txt) from Stanford for word embedding.
+    This project is to test machine learning algorithms on prediction of emoji based on input text. It's like emojis pop up after texting a sentence in a smart phone.
+
+    <h2 id="word2vec">Word2Vec</h2>
+    <p>We use Glove (glove.6B.50d.txt) from Stanford for word embedding (like a dictionary from English to 50-d space).
+      For each sentence, we slice and map the words into a embedding matrix where each row represent a 50-dimension word
+      vector. Then we use cosine similarity to compute the semantic distance between words. We construct a LSTM model as
+      follows: input layer(10-d as the max word counts of training set is 10) connects to the embedding, the second
+      layer((10,50) is the vector ), then a dropout layer and lastly a dense layer that outputs five dimension vectors
+      as we only have five emoji available for prediction. </p>
+    <p>For the available models in scikit learn, we directly use the tfidf for word embedding. </p>
+
+    <h2 id="bag-of-words-tf-idf">Bag of Words: TF-IDF</h2>
+    <p>BoW simply counts the frequency of words in a document. Thus the vector for a document has the frequency of each
+      word in the corpus for that document. In TF-IDF (term frequency-inverse document frequency) The importance of a
+      word is proportional to its frequency in the text (TF) and inversely proportional to its frequency in the corpus
+      (IDF).</p>
+    <p>TF is the total number of times a word appears in the article. In order to eliminate the difference between
+      different article sizes and facilitate the comparison between different articles, we normalize the term frequency
+      here: TF = the total number of times a word appears in the article / the total number of words. </p>
+    <p>IDF is the inverse document frequency. Inverse Document Frequency (IDF) = log(total number of documents in the
+      corpus / number of documents containing the word + 1) (add 1 is to avoid a denominator of 0): TF-IDF = TF * IDF.
+    </p>
+    <p>TF-IDF is simple, computationally cheap, and easy to use, but TF-IDF cannot help carry word&#39;s meaning when
+      handling complex or logical semantic context. For example, negation words like &quot;no&quot; should seprerate two
+      phrases into completely opposite direction, but they&#39;re treated as only one words that appears once and not
+      all phrases with negation are alike. However, it&#39;s enough to use to predict emoji here. </p>
+
 
     <div class="row">
       <div class="col-lg-12">
@@ -79,21 +104,17 @@
 
     <!-- <h2>Prediction on your word</h2> -->
     <form action="/" method="post">
-      <p><input type="utf-8" name="action2" value="nice ball"></p>
+      <p><input type="utf-8" name="action2" value="Enter text here then hit enter"></p>
     </form>
     (Enter Text then hit enter)
     {% for table in tables_text %}
     {{titles_text[loop.index]}}
     {{ table|safe }}
     {% endfor %}
-    <br>LSTM is disabled for its large size of model. Only five emojis are available for prediction. 
+    <br>LSTM is disabled for its large size of model and set to predict heart. 
     <br>You can try some of following:
-    <br>bad day
-    <br>good morning
-    <br>i like you
-    <br>nice ball
-    <br>i need food
-    
+    <br>bad day, good morning, i like you, nice ball, i need food.
+
     <div class="row">
       <div class="col-lg-12">
         <h1 class="page-header">Accuracy performed in test set
@@ -149,10 +170,12 @@
         </h1>
       </div>
     </div>
-    <!-- <h2>Improvement</h2> -->
+
+
     The potential improvement is to increase training set. Increase features size since there're only five emoji
     involved and input sentences might have more than one reasonable output. We can also perform hyperparameter
-    tuning.
+    tuning. Gradient Boosting Classifier is the best algorithms amongs as it is just a classification problem. LSTM would be more useful if the text is longer and context meaningful.  
+
 </body>
 
 </div>
