@@ -12,3 +12,5 @@ The following algorithms are used to be trained and predict:
 * LSTM
 
 The best predictor is Gradient Boosting with 62.5% accuracy. Ideally the LSTM will perform the best since it consider the context of text, which is more accurate than tokenization and word-embedding. We need more dataset to testify the performance of models. 
+
+The application is deployed on http://jackwang2037.com/projects/.
